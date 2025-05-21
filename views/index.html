@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý Key</title>
+</head>
+<body>
+  <h1>Danh sách Key</h1>
+  <ul id="key-list"></ul>
+
+  <h2>Thêm Key</h2>
+  <form method="POST" action="/add">
+    <input name="key" placeholder="Key" required>
+    <input name="expiry" type="date" required>
+    <button type="submit">Thêm</button>
+  </form>
+
+  <script>
+    fetch('/keys')
+      .then(res => res.json())
+      .then(keys => {
+        const ul = document.getElementById('key-list');
+        keys.forEach(k => {
+          const li = document.createElement('li');
+          li.innerHTML = `${k.key} - ${k.expiry.slice(0,10)} <a href="/delete/${k.key}">[Xoá]</a>`;
+          ul.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
